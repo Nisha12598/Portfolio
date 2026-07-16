@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+
+<html data-theme="light" lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Nisha Jamindari — Senior Software Engineer &amp; Data Scientist</title>
-<meta name="description" content="Nisha Jamindari — Senior Software Engineer and Data Scientist building cloud-native ML and GenAI systems. Based in Fulda, Germany.">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght=500;600;700&family=Inter:wght=400;500;600&family=IBM+Plex+Mono:wght=400;500&display=swap" rel="stylesheet">
-
+<meta content="Nisha Jamindari — Senior Software Engineer and Data Scientist building cloud-native ML and GenAI systems. Based in Fulda, Germany." name="description"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght=500;600;700&amp;family=Inter:wght=400;500;600&amp;family=IBM+Plex+Mono:wght=400;500&amp;display=swap" rel="stylesheet"/>
 <style>
   :root{
     --bg: #faf8f4;
@@ -221,6 +220,38 @@
   }
   .tag:hover{ border-color: var(--accent-line); transform: translateY(-1px); }
   .tag-icon{ width: 14px; height: 14px; object-fit: contain; flex-shrink: 0; }
+  .tag-icon.aws-icon{ width: 16px; height: 16px; }
+
+
+  /* ---- LANGUAGES ---- */
+  .language-grid{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    max-width: 720px;
+  }
+  .language-card{
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .language-card:hover{ transform: translateY(-2px); border-color: var(--accent-line); }
+  .language-head{ display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:14px; }
+  .language-name-wrap{ display:flex; align-items:center; gap:11px; }
+  .language-flag{ font-size: 25px; line-height:1; }
+  .language-name{ font-family:'Space Grotesk',sans-serif; font-size:17px; font-weight:600; }
+  .language-level{
+    font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--accent);
+    border:1px solid var(--accent-line); background:var(--accent-soft);
+    padding:4px 8px; border-radius:999px; white-space:nowrap;
+  }
+  .language-description{ color:var(--text-dim); font-size:13px; margin-bottom:14px; }
+  .language-scale{ display:flex; gap:5px; }
+  .language-scale span{ height:6px; flex:1; border-radius:999px; background:var(--line-soft); }
+  .language-scale span.filled{ background:var(--accent); }
+  .language-cefr{ margin-top:8px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--text-faint); }
 
   /* ---- RESUME (education + experience) ---- */
   .resume-cols{ display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
@@ -247,16 +278,27 @@
   }
   .project-card:hover{ transform: translateY(-3px); border-color: var(--accent-line); }
   .project-band{
-    height: 120px; background: linear-gradient(135deg, var(--accent-soft), transparent);
-    display: flex; align-items: center; justify-content: center;
+    height: 108px;
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-elevated);
     border-bottom: 1px solid var(--line-soft);
   }
-  /* Increased sizing constraint for project illustration vectors */
-  .project-band svg {
-    max-width: 64px;
-    max-height: 64px;
+  .project-image{
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.45s ease;
+  }
+  .project-card:hover .project-image{ transform: scale(1.02); }
+  .project-band::after{
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 38%;
+    background: linear-gradient(to top, rgba(0,0,0,0.16), transparent);
+    pointer-events: none;
   }
   .project-body{ padding: 20px; }
   .project-title{ font-size: 15.5px; font-weight: 600; margin-bottom: 8px; }
@@ -330,6 +372,8 @@
     .section{ padding: 60px 24px; }
     #hero{ padding-left: 24px; padding-right: 24px; }
     .info-grid{ grid-template-columns: 1fr; }
+    .project-band{ height: 96px; }
+    .language-grid{ grid-template-columns: 1fr; }
   }
 
   #sidebar-backdrop{
@@ -345,410 +389,419 @@
 </style>
 </head>
 <body>
-
 <!-- Mobile topbar -->
 <div id="mobile-topbar">
-  <div class="brand">N<span>·</span>J</div>
-  <button id="mobile-toggle" aria-label="Open menu">☰</button>
+<div class="brand">N<span>·</span>J</div>
+<button aria-label="Open menu" id="mobile-toggle">☰</button>
 </div>
 <div id="sidebar-backdrop"></div>
-
 <!-- Sidebar -->
 <aside id="sidebar">
-  <div class="avatar-wrap">
-    <img id="profile-photo" src="src/profile.jpg.png" alt="Nisha Jamindari" style="display: block;">
-    <span class="avatar-initials" id="avatar-fallback" style="display: none;">NJ</span>
-  </div>
-  <div class="sidebar-name">Nisha Jamindari</div>
-  <div class="sidebar-role">Senior Software Engineer &amp; Data Scientist</div>
-
-  <!-- Social Icons -->
-  <div class="sidebar-social">
-    <a href="mailto:jnisha0598@gmail.com" aria-label="Email" title="Email">
-      <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-    </a>
-    <a href="https://www.linkedin.com/in/nishajamindari" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
-      <svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
-    </a>
-    <a href="tel:+15156336024" aria-label="Phone" title="Phone">
-      <svg viewBox="0 0 24 24"><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57a1.02 1.02 0 0 0-1.02.24l-2.2 2.2a15.045 15.045 0 0 1-6.59-6.59l2.2-2.21a.96.96 0 0 0 .25-1.02A11.36 11.36 0 0 1 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z"/></svg>
-    </a>
-    <a href="https://github.com/Nisha12598" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
-      <svg viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
-    </a>
-  </div>
-
-  <button class="theme-toggle" id="darkModeToggle">
-    <span id="theme-icon">☾</span> <span id="theme-label">Switch to dark</span>
-  </button>
-
-  <ul id="sidebar-nav">
-    <li><button class="scrollto active" data-target="hero"><span class="dot"></span>Home</button></li>
-    <li><button class="scrollto" data-target="about"><span class="dot"></span>About Me</button></li>
-    <li><button class="scrollto" data-target="skills"><span class="dot"></span>Skills</button></li>
-    <li><button class="scrollto" data-target="experience"><span class="dot"></span>Experience</button></li>
-    <li><button class="scrollto" data-target="portfolio"><span class="dot"></span>Projects</button></li>
-    <li><button class="scrollto" data-target="education"><span class="dot"></span>Education</button></li>
-    <li><button class="scrollto" data-target="contact"><span class="dot"></span>Contact</button></li>
-  </ul>
+<div class="avatar-wrap">
+<img alt="Nisha Jamindari" id="profile-photo" src="src/profile.jpg.png" style="display: block;"/>
+<span class="avatar-initials" id="avatar-fallback" style="display: none;">NJ</span>
+</div>
+<div class="sidebar-name">Nisha Jamindari</div>
+<div class="sidebar-role">Senior Software Engineer &amp; Data Scientist</div>
+<!-- Social Icons -->
+<div class="sidebar-social">
+<a aria-label="Email" href="mailto:jnisha0598@gmail.com" title="Email">
+<svg viewbox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path></svg>
+</a>
+<a aria-label="LinkedIn" href="https://www.linkedin.com/in/nisha-jamindari/" rel="noopener" target="_blank" title="LinkedIn">
+<svg viewbox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"></path></svg>
+</a>
+<a aria-label="Phone" href="tel:+49 15156336024" title="Phone">
+<svg viewbox="0 0 24 24"><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57a1.02 1.02 0 0 0-1.02.24l-2.2 2.2a15.045 15.045 0 0 1-6.59-6.59l2.2-2.21a.96.96 0 0 0 .25-1.02A11.36 11.36 0 0 1 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z"></path></svg>
+</a>
+<a aria-label="GitHub" href="https://github.com/Nisha12598" rel="noopener" target="_blank" title="GitHub">
+<svg viewbox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"></path></svg>
+</a>
+</div>
+<button class="theme-toggle" id="darkModeToggle">
+<span id="theme-icon">☾</span> <span id="theme-label">Switch to dark</span>
+</button>
+<ul id="sidebar-nav">
+<li><button class="scrollto active" data-target="hero"><span class="dot"></span>Home</button></li>
+<li><button class="scrollto" data-target="about"><span class="dot"></span>About Me</button></li>
+<li><button class="scrollto" data-target="skills"><span class="dot"></span>Skills</button></li>
+<li><button class="scrollto" data-target="languages"><span class="dot"></span>Languages</button></li>
+<li><button class="scrollto" data-target="experience"><span class="dot"></span>Experience</button></li>
+<li><button class="scrollto" data-target="portfolio"><span class="dot"></span>Projects</button></li>
+<li><button class="scrollto" data-target="education"><span class="dot"></span>Education</button></li>
+<li><button class="scrollto" data-target="contact"><span class="dot"></span>Contact</button></li>
+</ul>
 </aside>
-
 <main>
-
-  <!-- HERO -->
-  <section id="hero">
-    <div class="hero-eyebrow">● based in Fulda, Germany</div>
-    <h1 class="hero-name">Nisha Jamindari</h1>
-    <div class="hero-typed mono">I'm a <span id="typed-text"></span><span class="cursor">|</span></div>
-    <div class="hero-meta">
-      <span class="chip">Fulda, Germany</span>
-      <span class="chip">6+ years experience</span>
-      <span class="chip">AWS · Azure · Python</span>
-      <span class="chip">GenAI &amp; Multi-Agent Systems</span>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about" class="section reveal">
-    <div class="eyebrow">About</div>
-    <h2 class="section-title">About Me</h2>
-    <p class="about-lead">
+<!-- HERO -->
+<section id="hero">
+<div class="hero-eyebrow">● based in Fulda, Germany</div>
+<h1 class="hero-name">Nisha Jamindari</h1>
+<div class="hero-typed mono">I'm a <span id="typed-text"></span><span class="cursor">|</span></div>
+<div class="hero-meta">
+<span class="chip">Fulda, Germany</span>
+<span class="chip">6+ years experience</span>
+<span class="chip">AWS · Azure · Python</span>
+<span class="chip">GenAI &amp; Multi-Agent Systems</span>
+</div>
+</section>
+<!-- ABOUT -->
+<section class="section reveal" id="about">
+<div class="eyebrow">About</div>
+<h2 class="section-title">About Me</h2>
+<p class="about-lead">
       I'm a <strong>Software Engineer specializing in AWS cloud architecture and
       AI-driven automation</strong>, with a track record of designing multi-account
       infrastructure and scalable backend microservices in Python and FastAPI.
       I architect event-driven serverless pipelines and stateful, graph-based
-      workflows that orchestrate specialized AI agents &mdash; for tasks like
+      workflows that orchestrate specialized AI agents — for tasks like
       NL2SQL and biomedical literature extraction. My work extends to
       Retrieval-Augmented Generation (RAG) systems and Model Context Protocol
       (MCP) integrations that connect LLMs with external knowledge sources.
     </p>
-
-    <div class="info-grid">
-      <div class="info-row"><span class="k">Location</span><span class="v">Fulda, Germany</span></div>
-      <div class="info-row"><span class="k">Email</span><span class="v">jnisha0598@gmail.com</span></div>
-      <div class="info-row"><span class="k">Phone</span><span class="v">+1 515 633 6024</span></div>
-      <div class="info-row"><span class="k">LinkedIn</span><span class="v">in/nishajamindari</span></div>
-      <div class="info-row"><span class="k">Open to</span><span class="v">SWE · DevOps · MLE · DS roles</span></div>
-      <div class="info-row"><span class="k">Availability</span><span class="v">Germany, on-site / hybrid</span></div>
-    </div>
-
-    <div class="stat-row">
-      <div class="stat"><div class="stat-num">6+</div><div class="stat-label">years experience</div></div>
-      <div class="stat"><div class="stat-num">99.9%</div><div class="stat-label">uptime maintained</div></div>
-      <div class="stat"><div class="stat-num">5+</div><div class="stat-label">AI agents architected</div></div>
-    </div>
-  </section>
-
-  <!-- SKILLS -->
-  <section id="skills" class="section reveal">
-    <div class="eyebrow">Skills</div>
-    <h2 class="section-title">What I Work With</h2>
-
-    <div class="skill-bars">
-      <div class="skill-bar-row">
-        <div class="top"><span class="name">Python</span><span class="pct">95%</span></div>
-        <div class="bar-track"><div class="bar-fill" data-pct="95"></div></div>
-      </div>
-      <div class="skill-bar-row">
-        <div class="top"><span class="name">GenAI / LLM Systems (RAG, Multi-Agent, MCP)</span><span class="pct">92%</span></div>
-        <div class="bar-track"><div class="bar-fill" data-pct="92"></div></div>
-      </div>
-      <div class="skill-bar-row">
-        <div class="top"><span class="name">AWS Cloud Architecture</span><span class="pct">90%</span></div>
-        <div class="bar-track"><div class="bar-fill" data-pct="90"></div></div>
-      </div>
-      <div class="skill-bar-row">
-        <div class="top"><span class="name">FastAPI &amp; Backend APIs</span><span class="pct">90%</span></div>
-        <div class="bar-track"><div class="bar-fill" data-pct="90"></div></div>
-      </div>
-      <div class="skill-bar-row">
-        <div class="top"><span class="name">SQL &amp; Data Engineering (Spark, ETL)</span><span class="pct">88%</span></div>
-        <div class="bar-track"><div class="bar-fill" data-pct="88"></div></div>
-      </div>
-      <div class="skill-bar-row">
-        <div class="top"><span class="name">Machine Learning (XGBoost, PCA, Regression)</span><span class="pct">85%</span></div>
-        <div class="bar-track"><div class="bar-fill" data-pct="85"></div></div>
-      </div>
-      <div class="skill-bar-row">
-        <div class="top"><span class="name">Azure (Synapse, OpenAI)</span><span class="pct">80%</span></div>
-        <div class="bar-track"><div class="bar-fill" data-pct="80"></div></div>
-      </div>
-    </div>
-
-    <div class="skill-tags-block">
-      <div class="skill-group-title">Programming &amp; Frameworks</div>
-      <div class="tag-list">
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/python/3776AB" alt="" onerror="this.remove()">Python</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/numpy/013243" alt="" onerror="this.remove()">NumPy</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/pandas/150458" alt="" onerror="this.remove()">Pandas</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/scikitlearn/F7931E" alt="" onerror="this.remove()">Scikit-learn</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/fastapi/009688" alt="" onerror="this.remove()">FastAPI</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/pydantic/E82443" alt="" onerror="this.remove()">Pydantic</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/apachespark/E25A1C" alt="" onerror="this.remove()">PySpark</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/react/61DAFB" alt="" onerror="this.remove()">ReactJS</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/git/F05032" alt="" onerror="this.remove()">Git</span>
-      </div>
-      <div class="skill-group-title">Machine Learning</div>
-      <div class="tag-list">
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/scikitlearn/F7931E" alt="" onerror="this.remove()">Linear &amp; Logistic Regression</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/scikitlearn/F7931E" alt="" onerror="this.remove()">Decision Trees</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/scikitlearn/F7931E" alt="" onerror="this.remove()">Random Forest</span>
-      </div>
-      <div class="skill-group-title">Data Engineering &amp; Databases</div>
-      <div class="tag-list">
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/databricks/FF3621" alt="" onerror="this.remove()">ETL / ELT Pipelines</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/postgresql/4169E1" alt="" onerror="this.remove()">PostgreSQL</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/mysql/4479A1" alt="" onerror="this.remove()">MySQL</span>
-      </div>
-      <div class="skill-group-title">Large Language Models &amp; Orchestration</div>
-      <div class="tag-list">
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/openai/000000" alt="" onerror="this.remove()">Generative AI</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/langchain/1C3C3A" alt="" onerror="this.remove()">LangGraph</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/langchain/1C3C3A" alt="" onerror="this.remove()">LangChain</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/anthropic/CC9966" alt="" onerror="this.remove()">Anthropic Models</span>
-        <span class="tag">
-          <svg class="tag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px; height:13px; display:inline-block; vertical-align:middle; margin-right:2px;"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+<div class="info-grid">
+<div class="info-row"><span class="k">Location</span><span class="v">Fulda, Germany</span></div>
+<div class="info-row"><span class="k">Email</span><span class="v">jnisha0598@gmail.com</span></div>
+<div class="info-row"><span class="k">Phone</span><span class="v">+1 515 633 6024</span></div>
+<div class="info-row"><span class="k">LinkedIn</span><span class="v">in/nishajamindari/</span></div>
+<div class="info-row"><span class="k">Open to</span><span class="v">SWE · DevOps · MLE · DS roles</span></div>
+<div class="info-row"><span class="k">Availability</span><span class="v">Germany, on-site / hybrid</span></div>
+</div>
+<div class="stat-row">
+<div class="stat"><div class="stat-num">6+</div><div class="stat-label">years experience</div></div>
+<div class="stat"><div class="stat-num">99.9%</div><div class="stat-label">uptime maintained on aws services</div></div>
+<div class="stat"><div class="stat-num">5+</div><div class="stat-label">AI agents architected</div></div>
+</div>
+</section>
+<!-- SKILLS -->
+<section class="section reveal" id="skills">
+<div class="eyebrow">Skills</div>
+<h2 class="section-title">What I Work With</h2>
+<div class="skill-bars">
+<div class="skill-bar-row">
+<div class="top"><span class="name">Python</span><span class="pct">95%</span></div>
+<div class="bar-track"><div class="bar-fill" data-pct="95"></div></div>
+</div>
+<div class="skill-bar-row">
+<div class="top"><span class="name">GenAI / LLM Systems (RAG, Multi-Agent, MCP)</span><span class="pct">92%</span></div>
+<div class="bar-track"><div class="bar-fill" data-pct="92"></div></div>
+</div>
+<div class="skill-bar-row">
+<div class="top"><span class="name">AWS Cloud Architecture</span><span class="pct">90%</span></div>
+<div class="bar-track"><div class="bar-fill" data-pct="90"></div></div>
+</div>
+<div class="skill-bar-row">
+<div class="top"><span class="name">FastAPI &amp; Backend APIs</span><span class="pct">90%</span></div>
+<div class="bar-track"><div class="bar-fill" data-pct="90"></div></div>
+</div>
+<div class="skill-bar-row">
+<div class="top"><span class="name">SQL &amp; Data Engineering (Spark, ETL)</span><span class="pct">88%</span></div>
+<div class="bar-track"><div class="bar-fill" data-pct="88"></div></div>
+</div>
+<div class="skill-bar-row">
+<div class="top"><span class="name">Machine Learning (XGBoost, PCA, Regression)</span><span class="pct">85%</span></div>
+<div class="bar-track"><div class="bar-fill" data-pct="85"></div></div>
+</div>
+<div class="skill-bar-row">
+<div class="top"><span class="name">Azure (Synapse, OpenAI)</span><span class="pct">80%</span></div>
+<div class="bar-track"><div class="bar-fill" data-pct="80"></div></div>
+</div>
+</div>
+<div class="skill-tags-block">
+<div class="skill-group-title">Programming &amp; Frameworks</div>
+<div class="tag-list">
+<span class="tag"><img alt="" class="tag-icon" onerror="this.remove()" src="https://cdn.simpleicons.org/python/3776AB"/>Python</span>
+<span class="tag"><img alt="" class="tag-icon" onerror="this.remove()" src="https://cdn.simpleicons.org/numpy/013243"/>NumPy</span>
+<span class="tag"><img alt="" class="tag-icon" onerror="this.remove()" src="https://cdn.simpleicons.org/pandas/150458"/>Pandas</span>
+<span class="tag"><img alt="" class="tag-icon" onerror="this.remove()" src="https://cdn.simpleicons.org/scikitlearn/F7931E"/>Scikit-learn</span>
+<span class="tag"><img alt="" class="tag-icon" onerror="this.remove()" src="https://cdn.simpleicons.org/fastapi/009688"/>FastAPI</span>
+<span class="tag"><img alt="" class="tag-icon" onerror="this.remove()" src="https://cdn.simpleicons.org/pydantic/E82443"/>Pydantic</span>
+<span class="tag"><img alt="" class="tag-icon" onerror="this.remove()" src="https://cdn.simpleicons.org/apachespark/E25A1C"/>PySpark</span>
+<span class="tag"><img alt="" class="tag-icon" onerror="this.remove()" src="https://cdn.simpleicons.org/react/61DAFB"/>ReactJS</span>
+<span class="tag"><img alt="" class="tag-icon" onerror="this.remove()" src="https://cdn.simpleicons.org/git/F05032"/>Git</span>
+</div>
+<div class="skill-group-title">Machine Learning</div>
+<div class="tag-list">
+<span class="tag"><img alt="" class="tag-icon" onerror="this.remove()" src="https://cdn.simpleicons.org/scikitlearn/F7931E"/>Linear &amp; Logistic Regression</span>
+<span class="tag"><img alt="" class="tag-icon" onerror="this.remove()" src="https://cdn.simpleicons.org/scikitlearn/F7931E"/>Decision Trees</span>
+<span class="tag"><img alt="" class="tag-icon" onerror="this.remove()" src="https://cdn.simpleicons.org/scikitlearn/F7931E"/>Random Forest</span>
+</div>
+<div class="skill-group-title">Data Engineering &amp; Databases</div>
+<div class="tag-list">
+<span class="tag"><img alt="" class="tag-icon" onerror="this.remove()" src="https://cdn.simpleicons.org/databricks/FF3621"/>ETL / ELT Pipelines</span>
+<span class="tag"><img alt="" class="tag-icon" onerror="this.remove()" src="https://cdn.simpleicons.org/postgresql/4169E1"/>PostgreSQL</span>
+<span class="tag"><img alt="" class="tag-icon" onerror="this.remove()" src="https://cdn.simpleicons.org/mysql/4479A1"/>MySQL</span>
+</div>
+<div class="skill-group-title">Large Language Models &amp; Orchestration</div>
+<div class="tag-list">
+<span class="tag"><img alt="" class="tag-icon" onerror="this.remove()" src="https://cdn.simpleicons.org/openai/000000"/>Generative AI</span>
+<span class="tag"><img alt="" class="tag-icon" onerror="this.remove()" src="https://cdn.simpleicons.org/langchain/1C3C3A"/>LangGraph</span>
+<span class="tag"><img alt="" class="tag-icon" onerror="this.remove()" src="https://cdn.simpleicons.org/langchain/1C3C3A"/>LangChain</span>
+<span class="tag"><img alt="" class="tag-icon" onerror="this.remove()" src="https://cdn.simpleicons.org/anthropic/CC9966"/>Anthropic Models</span>
+<span class="tag">
+<svg class="tag-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="width:13px; height:13px; display:inline-block; vertical-align:middle; margin-right:2px;" viewbox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" x2="12" y1="22.08" y2="12"></line></svg>
           RAG &amp; MCP
         </span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/langchain/1C3C3A" alt="" onerror="this.remove()">Agentic Workflows</span>
-      </div>
-      <div class="skill-group-title">Cloud &amp; DevOps</div>
-      <div class="tag-list">
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/awslambda/FF9900" alt="">AWS Lambda</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/amazondynamodb/4053D6" alt="">DynamoDB</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/amazonecs/FF9900" alt="">ECS / Fargate</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/amazonwebservices/FF9900" alt="">Step Functions</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/amazons3/569A36" alt="">Amazon S3</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/amazonwebservices/FF9900" alt="">CloudFormation</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/amazonwebservices/FF9900" alt="">AWS CDK</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/amazonapigateway/FF9900" alt="">API Gateway</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/amazoncloudwatch/FF9900" alt="">CloudWatch</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/amazoniam/FF9900" alt="">IAM</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/amazonrds/527FFF" alt="">RDS</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/amazonsqs/FF9900" alt="">Amazon SQS / SNS</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/amazonwebservices/FF9900" alt="">AWS CodeBuild</span>
-
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/microsoftazure/0078D4" alt="">Azure Synapse</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/microsoftazure/0078D4" alt="">Azure ADLS Gen2</span>
-        
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/githubactions/2088FF" alt="">GitHub Actions</span>
-      </div>
-      <div class="skill-group-title">Tools &amp; Languages</div>
-      <div class="tag-list">
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/docker/2496ED" alt="" onerror="this.remove()">Docker</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/tableau/E97627" alt="" onerror="this.remove()">Tableau</span>
-        <span class="tag"><img class="tag-icon" src="https://cdn.simpleicons.org/opensearch/005EB8" alt="" onerror="this.remove()">OpenSearch</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- EXPERIENCE -->
-  <section id="experience" class="section reveal">
-    <div class="eyebrow">Background</div>
-    <h2 class="section-title">Experience</h2>
-
-    <div class="resume-col-title">💼 Experience</div>
-    <div class="timeline">
-      <div class="titem">
-        <h4>Senior Software Engineer</h4>
-        <div class="org">Bristol Myers Squibb</div>
-        <div class="dates">May 2024 — Present · Hyderabad, India</div>
-        <ul>
-          <li>Led the development, deployment, and optimization of the <strong>"TransEpi" API and FullText Processing Pipeline</strong> orchestrating large batches of system data.</li>
-          <li>Built a biomedical RAG platform using Azure OpenAI GPT-4o, text-embedding-3-small, OpenSearch kNN/HNSW vector search, and Docling for PDF-to-Markdown extraction — <strong>~85% retrieval precision</strong>, 60% faster literature analysis.</li>
-          <li>Architected 5+ specialized AI agents (NL2SQL, literature search, algorithm extraction, OMOP translation, coding agent) via stateful graph workflows using LangGraph and LangChain — <strong>50% faster</strong> end-to-end analysis.</li>
-          <li>Developed a NL2SQL agent on Amazon Bedrock (Claude) translating natural language into Athena SQL over OMOP CDM healthcare datasets — <strong>~80% validated query accuracy</strong>, 70% faster SQL development.</li>
-          <li>Integrated Model Context Protocol (MCP) servers, PubMed, MeSH term resolution, and full-text retrieval to automate biomedical evidence discovery and algorithm extraction.</li>
-          <li>Built a production FastAPI microservice with JWT/API-key authentication, versioned REST endpoints, and Pydantic validation, containerized on ECS Fargate with Docker, Uvicorn, and ALB — maintaining <strong>99.9% service availability</strong>.</li>
-          <li>Designed and deployed multi-account AWS infrastructure (ECS Fargate, Lambda, Step Functions, DynamoDB, OpenSearch, S3, SQS/SNS) via CloudFormation across Dev, UAT, and Prod — <strong>65% faster deploys</strong>, 25% lower infra cost.</li>
-          <li>Engineered an event-driven document-processing pipeline (Step Functions, Lambda, SQS/SNS, EventBridge, DynamoDB) with execution locking and dead-letter retry logic — <strong>45% faster</strong> processing turnaround.</li>
-          <li>Implemented end-to-end SFTP-to-S3 data ingestion with XML parsing, backed by automated DevOps and CI/CD pipelines using GitHub Actions, AWS CodeBuild, and ECR.</li>
-        </ul>
-      </div>
-      <div class="titem">
-        <h4>Data Scientist</h4>
-        <div class="org">Wells Fargo</div>
-        <div class="dates">Jan 2022 — May 2024 · Hyderabad, India</div>
-        <ul>
-          <li>Led the development, implementation, and documentation of credit and fraud risk models using Python — <strong>98% fraud detection accuracy</strong>.</li>
-          <li>Applied statistical modeling and AI/ML techniques to build credit scorecards — <strong>20% reduction</strong> in fraud losses.</li>
-          <li>Built end-to-end ML pipelines covering data processing, feature engineering, model training, validation, and performance optimization.</li>
-          <li>Leveraged credit bureau data to enhance credit and fraud risk models — <strong>35% improvement</strong> in detection accuracy.</li>
-          <li>Collaborated with regulators, auditors, and technical/business stakeholders to support model compliance and validation.</li>
-          <li>Delivered analytical requests and ad-hoc reporting with <strong>100% on-time completion</strong>.</li>
-          <li>Produced technical documentation in Excel, Word, and PowerPoint for model validation and regulatory reviews.</li>
-        </ul>
-      </div>
-      <div class="titem">
-        <h4>Junior Data Analyst</h4>
-        <div class="org">Tata Consultancy Services</div>
-        <div class="dates">Jan 2021 — Dec 2021 · Hyderabad, India</div>
-        <ul>
-          <li>Performed advanced analytics, data modeling, and prescriptive analysis to support business decisions and process improvement.</li>
-          <li>Developed 2 Tableau dashboards to improve visibility and streamline reporting processes.</li>
-          <li>Created and analyzed 310+ ad hoc SQL queries in Tableau, presenting findings via PowerPoint and Excel.</li>
-          <li>Analyzed user survey results and recommended communication improvements — <strong>18% improvement</strong> in customer communication processes.</li>
-          <li>Conducted financial analysis and automated reporting with SQL and Excel — <strong>15% faster</strong> report generation.</li>
-          <li>Collaborated with Finance, Sales, and Operations teams to maintain process manuals and SOPs.</li>
-          <li>Cleaned, transformed, and analyzed large datasets — improved data accuracy by <strong>10%</strong>.</li>
-        </ul>
-      </div>
-      <div class="titem">
-        <h4>AML Analyst</h4>
-        <div class="org">Tata Consultancy Services</div>
-        <div class="dates">Jul 2019 — Dec 2020 · Hyderabad, India</div>
-        <ul>
-          <li>Conducted EDA for KYC/AML analysis, reviewing customer documentation and evaluating high-risk accounts.</li>
-          <li>Performed due diligence by analyzing transactions, identifying red flags, and escalating unusual activity to the appropriate business lines.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- PORTFOLIO -->
-  <section id="portfolio" class="section reveal">
-    <div class="eyebrow">Portfolio</div>
-    <h2 class="section-title">Past Projects</h2>
-
-    <div class="project-grid">
-
-      <!-- TransEpi Processing Pipeline -->
-      <div class="project-card">
-        <div class="project-band">
-          <svg viewBox="0 0 84 62" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 20h22v22H12z" stroke="var(--accent)" stroke-width="2" opacity="0.8"/>
-            <path d="M50 20h22v22H50z" stroke="var(--accent)" stroke-width="2" opacity="0.8"/>
-            <path d="M34 31h16" stroke="var(--accent)" stroke-width="2" stroke-dasharray="3 3"/>
-            <path d="M46 27l4 4-4 4" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div class="project-body">
-          <div class="project-title">TransEpi FullText Processing Pipeline</div>
-          <p class="project-desc">Led orchestration architecture using AWS Step Functions and Amazon SQS queues to securely handle distributed pipeline parsing, state machine handling, and high-throughput execution for bulk batches of text orders.</p>
-          <div class="project-metric">Step Functions · SQS · API Engineering</div>
-          <span class="project-link">Internal Enterprise Architecture</span>
-        </div>
-      </div>
-
-      <!-- Pet Classification Model Using CNN -->
-      <div class="project-card">
-        <div class="project-band">
-          <svg viewBox="0 0 84 62" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <ellipse cx="42" cy="40" rx="16" ry="13" stroke="var(--accent)" stroke-width="2"/>
-            <circle cx="22" cy="20" r="6" stroke="var(--accent)" stroke-width="2" opacity="0.75"/>
-            <circle cx="62" cy="20" r="6" stroke="var(--accent)" stroke-width="2" opacity="0.75"/>
-            <circle cx="30" cy="34" r="2.4" fill="var(--accent)"/>
-            <circle cx="54" cy="34" r="2.4" fill="var(--accent)"/>
-            <path d="M40 44c1.2 1.2 2.8 1.2 4 0" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/>
-            <path d="M42 40v3" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <div class="project-body">
-          <div class="project-title">Pet Classification Model Using CNN</div>
-          <p class="project-desc">A TensorFlow CNN — two conv/pool blocks, a dense layer, and dropout, with a final softmax — trained to classify pet images as cats or dogs across 100, 200, and 300 iterations.</p>
-          <div class="project-metric">CNN · TensorFlow · Image Classification</div>
-          <a class="project-link" href="https://github.com/Nisha12598/Pet-Classification-Model-Using-CNN." target="_blank" rel="noopener">
-            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+<span class="tag"><img alt="" class="tag-icon" onerror="this.remove()" src="https://cdn.simpleicons.org/langchain/1C3C3A"/>Agentic Workflows</span>
+</div>
+<div class="skill-group-title">Cloud &amp; DevOps</div>
+<div class="tag-list">
+<span class="tag"><img alt="AWS Lambda icon" class="tag-icon aws-icon" loading="lazy" onerror="this.remove()" src="https://icon.icepanel.io/AWS/svg/Compute/Lambda.svg"/>AWS Lambda</span>
+<span class="tag"><img alt="Amazon DynamoDB icon" class="tag-icon aws-icon" loading="lazy" onerror="this.remove()" src="https://icon.icepanel.io/AWS/svg/Database/DynamoDB.svg"/>Amazon DynamoDB</span>
+<span class="tag"><img alt="Amazon ECS icon" class="tag-icon aws-icon" loading="lazy" onerror="this.remove()" src="https://icon.icepanel.io/AWS/svg/Containers/Elastic-Container-Service.svg"/>Amazon ECS</span>
+<span class="tag"><img alt="AWS Fargate icon" class="tag-icon aws-icon" loading="lazy" onerror="this.remove()" src="https://icon.icepanel.io/AWS/svg/Compute/Fargate.svg"/>AWS Fargate</span>
+<span class="tag"><img alt="AWS Step Functions icon" class="tag-icon aws-icon" loading="lazy" onerror="this.remove()" src="https://icon.icepanel.io/AWS/svg/App-Integration/Step-Functions.svg"/>AWS Step Functions</span>
+<span class="tag"><img alt="Amazon S3 icon" class="tag-icon aws-icon" loading="lazy" onerror="this.remove()" src="https://icon.icepanel.io/AWS/svg/Storage/Simple-Storage-Service.svg"/>Amazon S3</span>
+<span class="tag"><img alt="AWS CloudFormation icon" class="tag-icon aws-icon" loading="lazy" onerror="this.remove()" src="https://icon.icepanel.io/AWS/svg/Management-Governance/CloudFormation.svg"/>AWS CloudFormation</span>
+<span class="tag"><img alt="AWS CDK icon" class="tag-icon aws-icon" loading="lazy" onerror="this.remove()" src="https://icon.icepanel.io/AWS/svg/Developer-Tools/Cloud-Development-Kit.svg"/>AWS CDK</span>
+<span class="tag"><img alt="Amazon API Gateway icon" class="tag-icon aws-icon" loading="lazy" onerror="this.remove()" src="https://icon.icepanel.io/AWS/svg/App-Integration/API-Gateway.svg"/>Amazon API Gateway</span>
+<span class="tag"><img alt="Amazon CloudWatch icon" class="tag-icon aws-icon" loading="lazy" onerror="this.remove()" src="https://icon.icepanel.io/AWS/svg/Management-Governance/CloudWatch.svg"/>Amazon CloudWatch</span>
+<span class="tag"><img alt="AWS IAM icon" class="tag-icon aws-icon" loading="lazy" onerror="this.remove()" src="https://icon.icepanel.io/AWS/svg/Security-Identity-Compliance/Identity-and-Access-Management.svg"/>AWS IAM</span>
+<span class="tag"><img alt="Amazon RDS icon" class="tag-icon aws-icon" loading="lazy" onerror="this.remove()" src="https://icon.icepanel.io/AWS/svg/Database/RDS.svg"/>Amazon RDS</span>
+<span class="tag"><img alt="Amazon SQS icon" class="tag-icon aws-icon" loading="lazy" onerror="this.remove()" src="https://icon.icepanel.io/AWS/svg/App-Integration/Simple-Queue-Service.svg"/>Amazon SQS</span>
+<span class="tag"><img alt="Amazon SNS icon" class="tag-icon aws-icon" loading="lazy" onerror="this.remove()" src="https://icon.icepanel.io/AWS/svg/App-Integration/Simple-Notification-Service.svg"/>Amazon SNS</span>
+<span class="tag"><img alt="AWS CodeBuild icon" class="tag-icon aws-icon" loading="lazy" onerror="this.remove()" src="https://icon.icepanel.io/AWS/svg/Developer-Tools/CodeBuild.svg"/>AWS CodeBuild</span>
+<span class="tag"><img alt="Azure icon" class="tag-icon" loading="lazy" onerror="this.remove()" src="https://cdn.simpleicons.org/microsoftazure/0078D4"/>Azure Synapse</span>
+<span class="tag"><img alt="Azure icon" class="tag-icon" loading="lazy" onerror="this.remove()" src="https://cdn.simpleicons.org/microsoftazure/0078D4"/>Azure ADLS Gen2</span>
+<span class="tag"><img alt="GitHub Actions icon" class="tag-icon" loading="lazy" onerror="this.remove()" src="https://cdn.simpleicons.org/githubactions/2088FF"/>GitHub Actions</span>
+</div>
+<div class="skill-group-title">Tools &amp; Languages</div>
+<div class="tag-list">
+<span class="tag"><img alt="" class="tag-icon" onerror="this.remove()" src="https://cdn.simpleicons.org/docker/2496ED"/>Docker</span>
+<span class="tag"><img alt="" class="tag-icon" onerror="this.remove()" src="https://cdn.simpleicons.org/tableau/E97627"/>Tableau</span>
+<span class="tag"><img alt="" class="tag-icon" onerror="this.remove()" src="https://cdn.simpleicons.org/opensearch/005EB8"/>OpenSearch</span>
+</div>
+</div>
+</section>
+<!-- LANGUAGES -->
+<section class="section reveal" id="languages">
+<div class="eyebrow">Communication</div>
+<h2 class="section-title">Languages</h2>
+<div class="language-grid">
+<article class="language-card">
+<div class="language-head">
+<div class="language-name-wrap">
+<span aria-hidden="true" class="language-flag">🇬🇧</span>
+<span class="language-name">English</span>
+</div>
+<span class="language-level">Fluent</span>
+</div>
+<p class="language-description">Professional working proficiency for technical discussions, documentation, presentations, and cross-functional collaboration.</p>
+<div aria-label="English proficiency: fluent" class="language-scale">
+<span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span>
+</div>
+<div class="language-cefr">Professional fluency</div>
+</article>
+<article class="language-card">
+<div class="language-head">
+<div class="language-name-wrap">
+<span aria-hidden="true" class="language-flag">🇩🇪</span>
+<span class="language-name">German</span>
+</div>
+<span class="language-level">A2</span>
+</div>
+<p class="language-description">Elementary proficiency for everyday conversations, routine workplace interactions, and basic written communication.</p>
+<div aria-label="German proficiency: CEFR A2" class="language-scale">
+<span class="filled"></span><span class="filled"></span><span></span><span></span><span></span><span></span>
+</div>
+<div class="language-cefr">CEFR A2 · Elementary</div>
+</article>
+</div>
+</section>
+<!-- EXPERIENCE -->
+<section class="section reveal" id="experience">
+<div class="eyebrow">Background</div>
+<h2 class="section-title">Experience</h2>
+<div class="resume-col-title">💼 Experience</div>
+<div class="timeline">
+<div class="titem">
+<h4>Senior Software Engineer</h4>
+<div class="org">Bristol Myers Squibb</div>
+<div class="dates">May 2024 — Present · Hyderabad, India</div>
+<ul>
+<li>Led the development, deployment, and optimization of the <strong>"TransEpi" API and FullText Processing Pipeline</strong> orchestrating large batches of system data.</li>
+<li>Built a biomedical RAG platform using Azure OpenAI GPT-4o, text-embedding-3-small, OpenSearch kNN/HNSW vector search, and Docling for PDF-to-Markdown extraction — <strong>~85% retrieval precision</strong>, 60% faster literature analysis.</li>
+<li>Architected 5+ specialized AI agents (NL2SQL, literature search, algorithm extraction, OMOP translation, coding agent) via stateful graph workflows using LangGraph and LangChain — <strong>50% faster</strong> end-to-end analysis.</li>
+<li>Developed a NL2SQL agent on Amazon Bedrock (Claude) translating natural language into Athena SQL over OMOP CDM healthcare datasets — <strong>~80% validated query accuracy</strong>, 70% faster SQL development.</li>
+<li>Integrated Model Context Protocol (MCP) servers, PubMed, MeSH term resolution, and full-text retrieval to automate biomedical evidence discovery and algorithm extraction.</li>
+<li>Built a production FastAPI microservice with JWT/API-key authentication, versioned REST endpoints, and Pydantic validation, containerized on ECS Fargate with Docker, Uvicorn, and ALB — maintaining <strong>99.9% service availability</strong>.</li>
+<li>Designed and deployed multi-account AWS infrastructure (ECS Fargate, Lambda, Step Functions, DynamoDB, OpenSearch, S3, SQS/SNS) via CloudFormation across Dev, UAT, and Prod — <strong>65% faster deploys</strong>, 25% lower infra cost.</li>
+<li>Engineered an event-driven document-processing pipeline (Step Functions, Lambda, SQS/SNS, EventBridge, DynamoDB) with execution locking and dead-letter retry logic — <strong>45% faster</strong> processing turnaround.</li>
+<li>Implemented end-to-end SFTP-to-S3 data ingestion with XML parsing, backed by automated DevOps and CI/CD pipelines using GitHub Actions, AWS CodeBuild, and ECR.</li>
+</ul>
+</div>
+<div class="titem">
+<h4>Data Scientist</h4>
+<div class="org">Wells Fargo</div>
+<div class="dates">Jan 2022 — May 2024 · Hyderabad, India</div>
+<ul>
+<li>Led the development, implementation, and documentation of credit and fraud risk models using Python — <strong>98% fraud detection accuracy</strong>.</li>
+<li>Applied statistical modeling and AI/ML techniques to build credit scorecards — <strong>20% reduction</strong> in fraud losses.</li>
+<li>Built end-to-end ML pipelines covering data processing, feature engineering, model training, validation, and performance optimization.</li>
+<li>Leveraged credit bureau data to enhance credit and fraud risk models — <strong>35% improvement</strong> in detection accuracy.</li>
+<li>Collaborated with regulators, auditors, and technical/business stakeholders to support model compliance and validation.</li>
+<li>Delivered analytical requests and ad-hoc reporting with <strong>100% on-time completion</strong>.</li>
+<li>Produced technical documentation in Excel, Word, and PowerPoint for model validation and regulatory reviews.</li>
+</ul>
+</div>
+<div class="titem">
+<h4>Junior Data Analyst</h4>
+<div class="org">Tata Consultancy Services</div>
+<div class="dates">Jan 2021 — Dec 2021 · Hyderabad, India</div>
+<ul>
+<li>Performed advanced analytics, data modeling, and prescriptive analysis to support business decisions and process improvement.</li>
+<li>Developed 2 Tableau dashboards to improve visibility and streamline reporting processes.</li>
+<li>Created and analyzed 310+ ad hoc SQL queries in Tableau, presenting findings via PowerPoint and Excel.</li>
+<li>Analyzed user survey results and recommended communication improvements — <strong>18% improvement</strong> in customer communication processes.</li>
+<li>Conducted financial analysis and automated reporting with SQL and Excel — <strong>15% faster</strong> report generation.</li>
+<li>Collaborated with Finance, Sales, and Operations teams to maintain process manuals and SOPs.</li>
+<li>Cleaned, transformed, and analyzed large datasets — improved data accuracy by <strong>10%</strong>.</li>
+</ul>
+</div>
+<div class="titem">
+<h4>AML Analyst</h4>
+<div class="org">Tata Consultancy Services</div>
+<div class="dates">Jul 2019 — Dec 2020 · Hyderabad, India</div>
+<ul>
+<li>Conducted EDA for KYC/AML analysis, reviewing customer documentation and evaluating high-risk accounts.</li>
+<li>Performed due diligence by analyzing transactions, identifying red flags, and escalating unusual activity to the appropriate business lines.</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- PORTFOLIO -->
+<section class="section reveal" id="portfolio">
+<div class="eyebrow">Portfolio</div>
+<h2 class="section-title">Past Projects</h2>
+<div class="project-grid">
+<!-- TransEpi Processing Pipeline -->
+<div class="project-card">
+<div class="project-band">
+<img alt="Cloud-native document processing pipeline with serverless workflow orchestration" class="project-image" loading="lazy" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjYyMCIgdmlld0JveD0iMCAwIDEyMDAgNjIwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IkNsb3VkIGRvY3VtZW50IHByb2Nlc3Npbmcgd29ya2Zsb3cgaWxsdXN0cmF0aW9uIj4KPGRlZnM+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJiZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMxMTE4MjciLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMyNDNiNTUiLz48L2xpbmVhckdyYWRpZW50PgogIDxsaW5lYXJHcmFkaWVudCBpZD0icGFuZWwiIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBzdG9wLWNvbG9yPSIjZmZmIiBzdG9wLW9wYWNpdHk9Ii4xNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2ZmZiIgc3RvcC1vcGFjaXR5PSIuMDUiLz48L2xpbmVhckdyYWRpZW50PgogIAo8L2RlZnM+CjxyZWN0IHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjYyMCIgZmlsbD0idXJsKCNiZykiLz4KPGNpcmNsZSBjeD0iMTA4MCIgY3k9IjEwMCIgcj0iMTgwIiBmaWxsPSIjZmY5OTAwIiBvcGFjaXR5PSIuMDkiLz48Y2lyY2xlIGN4PSIxMjAiIGN5PSI1NjAiIHI9IjIyMCIgZmlsbD0iIzM4YmRmOCIgb3BhY2l0eT0iLjA4Ii8+CjxnIG9wYWNpdHk9Ii4xMiIgc3Ryb2tlPSIjZmZmIj48cGF0aCBkPSJNMCAxMDBIMTIwME0wIDIxMEgxMjAwTTAgMzIwSDEyMDBNMCA0MzBIMTIwME0wIDU0MEgxMjAwIi8+PHBhdGggZD0iTTEyMCAwVjYyME0zNDAgMFY2MjBNNTYwIDBWNjIwTTc4MCAwVjYyME0xMDAwIDBWNjIwIi8+PC9nPgo8Zz4KICA8cmVjdCB4PSIxMDUiIHk9IjEzNSIgd2lkdGg9IjIzNSIgaGVpZ2h0PSIzMTAiIHJ4PSIyNiIgZmlsbD0idXJsKCNwYW5lbCkiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLW9wYWNpdHk9Ii4yMiIvPgogIDxwYXRoIGQ9Ik0xNjAgMjA1aDEyNU0xNjAgMjQ1aDEyNU0xNjAgMjg1aDkyTTE2MCAzMjVoMTE4IiBzdHJva2U9IiNlNWU3ZWIiIHN0cm9rZS13aWR0aD0iMTgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iLjkiLz4KICA8cGF0aCBkPSJNMjcwIDEzNXY3MGg3MCIgZmlsbD0iI2Y4ZmFmYyIgb3BhY2l0eT0iLjIiLz48cGF0aCBkPSJNMjcwIDEzNWw3MCA3MCIgc3Ryb2tlPSIjZjhmYWZjIiBzdHJva2Utd2lkdGg9IjUiIG9wYWNpdHk9Ii40NSIvPgogIDxjaXJjbGUgY3g9IjIyMiIgY3k9IjM4NiIgcj0iMjgiIGZpbGw9IiMzOGJkZjgiIG9wYWNpdHk9Ii44NSIvPjxwYXRoIGQ9Ik0yMTEgMzg2bDggOCAxNi0xOSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L2c+CjxnIHN0cm9rZT0iI2ZiYmYyNCIgc3Ryb2tlLXdpZHRoPSI5IiBzdHJva2UtbGluZWNhcD0icm91bmQiIGZpbGw9Im5vbmUiPjxwYXRoIGQ9Ik0zNjAgMjkwSDQ3NSIvPjxwYXRoIGQ9Ik00NTIgMjY1bDI4IDI1LTI4IDI1Ii8+PC9nPgo8Zz4KICA8cmVjdCB4PSI0ODAiIHk9IjExMCIgd2lkdGg9IjMwMCIgaGVpZ2h0PSI0MDAiIHJ4PSIzNiIgZmlsbD0idXJsKCNwYW5lbCkiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLW9wYWNpdHk9Ii4yNSIvPgogIDxjaXJjbGUgY3g9IjYzMCIgY3k9IjMxMCIgcj0iMTA1IiBmaWxsPSIjZmY5OTAwIiBvcGFjaXR5PSIuOTIiLz4KICA8ZyBmaWxsPSIjZmZmIj48cmVjdCB4PSI2MDAiIHk9IjIyMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiByeD0iMTIiLz48cmVjdCB4PSI1MzUiIHk9IjMzMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiByeD0iMTIiLz48cmVjdCB4PSI2NjUiIHk9IjMzMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiByeD0iMTIiLz48L2c+CiAgPGcgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjEwIiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiPjxwYXRoIGQ9Ik02MzAgMjgwdjM0TTYzMCAzMTRoLTY1djE2TTYzMCAzMTRoNjV2MTYiLz48L2c+CiAgPHRleHQgeD0iNjMwIiB5PSI0NTUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmYiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIzMCIgZm9udC13ZWlnaHQ9IjcwMCI+U0VSVkVSTEVTUyBXT1JLRkxPVzwvdGV4dD4KPC9nPgo8ZyBzdHJva2U9IiMzOGJkZjgiIHN0cm9rZS13aWR0aD0iOSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIj48cGF0aCBkPSJNNzkwIDI5MEg5MDAiLz48cGF0aCBkPSJNODc2IDI2NWwyOCAyNS0yOCAyNSIvPjwvZz4KPGc+CiAgPHJlY3QgeD0iOTAwIiB5PSIxNjAiIHdpZHRoPSIyMTAiIGhlaWdodD0iMjgwIiByeD0iMjgiIGZpbGw9InVybCgjcGFuZWwpIiBzdHJva2U9IiNmZmYiIHN0cm9rZS1vcGFjaXR5PSIuMjQiLz4KICA8ZWxsaXBzZSBjeD0iMTAwNSIgY3k9IjIyNSIgcng9IjY4IiByeT0iMzAiIGZpbGw9IiMzOGJkZjgiLz48cGF0aCBkPSJNOTM3IDIyNXYxMjBjMCAxNyAzMCAzMCA2OCAzMHM2OC0xMyA2OC0zMFYyMjUiIGZpbGw9IiMzOGJkZjgiIG9wYWNpdHk9Ii43OCIvPjxlbGxpcHNlIGN4PSIxMDA1IiBjeT0iMzQ1IiByeD0iNjgiIHJ5PSIzMCIgZmlsbD0iIzBlYTVlOSIvPgogIDxwYXRoIGQ9Ik05NTUgMjkwaDEwMCIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iLjkiLz4KICA8dGV4dCB4PSIxMDA1IiB5PSI0MTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmYiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNyIgZm9udC13ZWlnaHQ9IjcwMCI+UFJPQ0VTU0VEIERBVEE8L3RleHQ+CjwvZz4KPC9zdmc+"/>
+</div>
+<div class="project-body">
+<div class="project-title">TransEpi FullText Processing Pipeline</div>
+<p class="project-desc">Led orchestration architecture using AWS Step Functions and Amazon SQS queues to securely handle distributed pipeline parsing, state machine handling, and high-throughput execution for bulk batches of text orders.</p>
+<div class="project-metric">Step Functions · SQS · API Engineering</div>
+<span class="project-link">Internal Enterprise Architecture</span>
+</div>
+</div>
+<!-- Pet Classification Model Using CNN -->
+<div class="project-card">
+<div class="project-band">
+<img alt="Cat and dog image classification using a convolutional neural network" class="project-image" loading="lazy" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjYyMCIgdmlld0JveD0iMCAwIDEyMDAgNjIwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IkNhdCBhbmQgZG9nIGltYWdlIGNsYXNzaWZpY2F0aW9uIG5ldXJhbCBuZXR3b3JrIGlsbHVzdHJhdGlvbiI+CjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBzdG9wLWNvbG9yPSIjZjhmYWZjIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZGJlYWZlIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+CjxyZWN0IHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjYyMCIgZmlsbD0idXJsKCNiZykiLz48Y2lyY2xlIGN4PSIxMDUwIiBjeT0iOTAiIHI9IjE2MCIgZmlsbD0iI2E3OGJmYSIgb3BhY2l0eT0iLjE4Ii8+PGNpcmNsZSBjeD0iMTEwIiBjeT0iNTQwIiByPSIyMTAiIGZpbGw9IiMyMmM1NWUiIG9wYWNpdHk9Ii4xMiIvPgo8Zz48cmVjdCB4PSI3MCIgeT0iMTA1IiB3aWR0aD0iMzUwIiBoZWlnaHQ9IjQxMCIgcng9IjM0IiBmaWxsPSIjZmZmIi8+PHJlY3QgeD0iNzgwIiB5PSIxMDUiIHdpZHRoPSIzNTAiIGhlaWdodD0iNDEwIiByeD0iMzQiIGZpbGw9IiNmZmYiLz48L2c+Cjx0ZXh0IHg9IjI0NSIgeT0iMTYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzM0MTU1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMzIiIGZvbnQtd2VpZ2h0PSI3MDAiPkNBVDwvdGV4dD48dGV4dCB4PSI5NTUiIHk9IjE2MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzMzNDE1NSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjMyIiBmb250LXdlaWdodD0iNzAwIj5ET0c8L3RleHQ+CjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEyNSAxODApIj4KICA8cGF0aCBkPSJNNTUgOTVMMjUgMThsODggNDIgNzAtNDIgMzQgNzdjMzUgMTggNTggNTYgNTggMTAyIDAgNzctNTkgMTM5LTEzMiAxMzlTMTAgMjc0IDEwIDE5N2MwLTQ2IDE4LTgzIDQ1LTEwMnoiIGZpbGw9IiNmMWMyN2QiLz4KICA8cGF0aCBkPSJNNDIgNTVMMjUgMThsNjIgMzBNMTgzIDQ4bDcwLTMwLTI0IDU1IiBmaWxsPSIjZDY5ZTVmIi8+CiAgPGVsbGlwc2UgY3g9IjExMiIgY3k9IjE4NyIgcng9IjIwIiByeT0iMjQiIGZpbGw9IiMxZjI5MzciLz48ZWxsaXBzZSBjeD0iMTk1IiBjeT0iMTg3IiByeD0iMjAiIHJ5PSIyNCIgZmlsbD0iIzFmMjkzNyIvPjxwYXRoIGQ9Ik0xNDQgMjI1cTE1IDE4IDMwIDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzdjMmQxMiIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNMTU5IDIwN2wtMTYgMTdoMzJ6IiBmaWxsPSIjN2MyZDEyIi8+CjwvZz4KPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODIwIDE5MCkiPgogIDxlbGxpcHNlIGN4PSIxMzUiIGN5PSIxNzUiIHJ4PSIxMTIiIHJ5PSIxMzAiIGZpbGw9IiNkOWEwNjYiLz48cGF0aCBkPSJNNDAgODZRLTEwIDIwIDQ1IDVxNDUgNDUgNTUgOTVNMjMwIDg2cTUwLTY2LTUtODEtNDUgNDUtNTUgOTUiIGZpbGw9IiM5YTYzMzUiLz4KICA8ZWxsaXBzZSBjeD0iOTUiIGN5PSIxNjUiIHJ4PSIxOCIgcnk9IjIyIiBmaWxsPSIjMWYyOTM3Ii8+PGVsbGlwc2UgY3g9IjE3NSIgY3k9IjE2NSIgcng9IjE4IiByeT0iMjIiIGZpbGw9IiMxZjI5MzciLz48ZWxsaXBzZSBjeD0iMTM1IiBjeT0iMjE1IiByeD0iMzQiIHJ5PSIyNCIgZmlsbD0iIzViMzUyMSIvPjxwYXRoIGQ9Ik0xMzUgMjM4cS0xMiAyNC0zMiA1TTEzNSAyMzhxMTIgMjQgMzIgNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNWIzNTIxIiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L2c+CjxnIHN0cm9rZT0iIzYzNjZmMSIgc3Ryb2tlLXdpZHRoPSI0IiBvcGFjaXR5PSIuNTUiPjxwYXRoIGQ9Ik00MjAgMTg1TDU2MCAyMDAiLz48cGF0aCBkPSJNNDIwIDE4NUw1NjAgMjcwIi8+PHBhdGggZD0iTTQyMCAxODVMNTYwIDM0MCIvPjxwYXRoIGQ9Ik00MjAgMTg1TDU2MCA0MTAiLz48cGF0aCBkPSJNNDIwIDI1MEw1NjAgMjAwIi8+PHBhdGggZD0iTTQyMCAyNTBMNTYwIDI3MCIvPjxwYXRoIGQ9Ik00MjAgMjUwTDU2MCAzNDAiLz48cGF0aCBkPSJNNDIwIDI1MEw1NjAgNDEwIi8+PHBhdGggZD0iTTQyMCAzMTVMNTYwIDIwMCIvPjxwYXRoIGQ9Ik00MjAgMzE1TDU2MCAyNzAiLz48cGF0aCBkPSJNNDIwIDMxNUw1NjAgMzQwIi8+PHBhdGggZD0iTTQyMCAzMTVMNTYwIDQxMCIvPjxwYXRoIGQ9Ik00MjAgMzgwTDU2MCAyMDAiLz48cGF0aCBkPSJNNDIwIDM4MEw1NjAgMjcwIi8+PHBhdGggZD0iTTQyMCAzODBMNTYwIDM0MCIvPjxwYXRoIGQ9Ik00MjAgMzgwTDU2MCA0MTAiLz48cGF0aCBkPSJNNDIwIDQ0NUw1NjAgMjAwIi8+PHBhdGggZD0iTTQyMCA0NDVMNTYwIDI3MCIvPjxwYXRoIGQ9Ik00MjAgNDQ1TDU2MCAzNDAiLz48cGF0aCBkPSJNNDIwIDQ0NUw1NjAgNDEwIi8+PC9nPgo8ZyBzdHJva2U9IiMwZWE1ZTkiIHN0cm9rZS13aWR0aD0iNCIgb3BhY2l0eT0iLjU1Ij48cGF0aCBkPSJNNjQwIDIwMEw3ODAgMTg1Ii8+PHBhdGggZD0iTTY0MCAyMDBMNzgwIDI1MCIvPjxwYXRoIGQ9Ik02NDAgMjAwTDc4MCAzMTUiLz48cGF0aCBkPSJNNjQwIDIwMEw3ODAgMzgwIi8+PHBhdGggZD0iTTY0MCAyMDBMNzgwIDQ0NSIvPjxwYXRoIGQ9Ik02NDAgMjcwTDc4MCAxODUiLz48cGF0aCBkPSJNNjQwIDI3MEw3ODAgMjUwIi8+PHBhdGggZD0iTTY0MCAyNzBMNzgwIDMxNSIvPjxwYXRoIGQ9Ik02NDAgMjcwTDc4MCAzODAiLz48cGF0aCBkPSJNNjQwIDI3MEw3ODAgNDQ1Ii8+PHBhdGggZD0iTTY0MCAzNDBMNzgwIDE4NSIvPjxwYXRoIGQ9Ik02NDAgMzQwTDc4MCAyNTAiLz48cGF0aCBkPSJNNjQwIDM0MEw3ODAgMzE1Ii8+PHBhdGggZD0iTTY0MCAzNDBMNzgwIDM4MCIvPjxwYXRoIGQ9Ik02NDAgMzQwTDc4MCA0NDUiLz48cGF0aCBkPSJNNjQwIDQxMEw3ODAgMTg1Ii8+PHBhdGggZD0iTTY0MCA0MTBMNzgwIDI1MCIvPjxwYXRoIGQ9Ik02NDAgNDEwTDc4MCAzMTUiLz48cGF0aCBkPSJNNjQwIDQxMEw3ODAgMzgwIi8+PHBhdGggZD0iTTY0MCA0MTBMNzgwIDQ0NSIvPjwvZz4KPGcgZmlsbD0iIzYzNjZmMSI+PGNpcmNsZSBjeD0iNTYwIiBjeT0iMjAwIiByPSIxNyIvPjxjaXJjbGUgY3g9IjU2MCIgY3k9IjI3MCIgcj0iMTciLz48Y2lyY2xlIGN4PSI1NjAiIGN5PSIzNDAiIHI9IjE3Ii8+PGNpcmNsZSBjeD0iNTYwIiBjeT0iNDEwIiByPSIxNyIvPjwvZz48ZyBmaWxsPSIjMGVhNWU5Ij48Y2lyY2xlIGN4PSI2NDAiIGN5PSIyMDAiIHI9IjE3Ii8+PGNpcmNsZSBjeD0iNjQwIiBjeT0iMjcwIiByPSIxNyIvPjxjaXJjbGUgY3g9IjY0MCIgY3k9IjM0MCIgcj0iMTciLz48Y2lyY2xlIGN4PSI2NDAiIGN5PSI0MTAiIHI9IjE3Ii8+PC9nPgo8cmVjdCB4PSI1MjUiIHk9IjQ5MCIgd2lkdGg9IjE1MCIgaGVpZ2h0PSI1NSIgcng9IjI3IiBmaWxsPSIjMWUyOTNiIi8+PHRleHQgeD0iNjAwIiB5PSI1MjciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmYiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyNCIgZm9udC13ZWlnaHQ9IjcwMCI+Q05OIE1PREVMPC90ZXh0Pgo8L3N2Zz4="/>
+</div>
+<div class="project-body">
+<div class="project-title">Pet Classification Model Using CNN</div>
+<p class="project-desc">A TensorFlow CNN — two conv/pool blocks, a dense layer, and dropout, with a final softmax — trained to classify pet images as cats or dogs across 100, 200, and 300 iterations.</p>
+<div class="project-metric">CNN · TensorFlow · Image Classification</div>
+<a class="project-link" href="https://github.com/Nisha12598/Pet-Classification-Model-Using-CNN." rel="noopener" target="_blank">
+<svg fill="currentColor" viewbox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
             Explore the project on GitHub
           </a>
-        </div>
-      </div>
-
-      <!-- Mercedes-Benz Greener Manufacturing -->
-      <div class="project-card">
-        <div class="project-band">
-          <svg viewBox="0 0 84 62" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 56V32l14-10 14 10v24" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
-            <rect x="10" y="32" width="28" height="24" stroke="var(--accent)" stroke-width="2" opacity="0.6"/>
-            <rect x="18" y="40" width="6" height="8" fill="var(--accent)" opacity="0.5"/>
-            <rect x="28" y="40" width="6" height="8" fill="var(--accent)" opacity="0.5"/>
-            <line x1="14" y1="18" x2="14" y2="30" stroke="var(--accent)" stroke-width="2" opacity="0.6"/>
-            <circle cx="60" cy="30" r="11" stroke="var(--accent)" stroke-width="2"/>
-            <path d="M60 19v3M60 38v3M71 30h-3M52 30h-3M67.8 22.2l-2.1 2.1M54.3 35.7l-2.1 2.1M67.8 37.8l-2.1-2.1M54.3 24.3l-2.1-2.1" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round"/>
-            <path d="M58 33c-3-2-3-6 0-9 3 4 5 6 8 5-1 4-5 6-8 4z" fill="var(--accent)" opacity="0.8"/>
-          </svg>
-        </div>
-        <div class="project-body">
-          <div class="project-title">Mercedes-Benz — Reducing Test Bench Time</div>
-          <p class="project-desc">Cleaned zero-variance and null features, label-encoded categorical variables, applied dimensionality reduction, and used XGBoost to predict how long a car configuration spends on the test bench.</p>
-          <div class="project-metric">XGBoost · PCA · Label Encoding</div>
-          <a class="project-link" href="https://github.com/Nisha12598/Mercedes-Benz" target="_blank" rel="noopener">
-            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+</div>
+</div>
+<!-- Mercedes-Benz Greener Manufacturing -->
+<div class="project-card">
+<div class="project-band">
+<img alt="Automotive test-bench optimization using machine learning" class="project-image" loading="lazy" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjYyMCIgdmlld0JveD0iMCAwIDEyMDAgNjIwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IkF1dG9tb3RpdmUgdGVzdCBiZW5jaCBhbmQgbWFjaGluZSBsZWFybmluZyBhbmFseXRpY3MgaWxsdXN0cmF0aW9uIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJiZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwZjE3MmEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxMzRlNGEiLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iY2FyIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMCI+PHN0b3Agc3RvcC1jb2xvcj0iI2UyZThmMCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzk0YTNiOCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgo8cmVjdCB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI2MjAiIGZpbGw9InVybCgjYmcpIi8+PHBhdGggZD0iTTAgNDcwUTI1MCAzOTAgNTAwIDQ3MFQxMDAwIDQ3MFQxNDAwIDQ3MFY2MjBIMHoiIGZpbGw9IiMwNjRlM2IiIG9wYWNpdHk9Ii43NSIvPgo8ZyBvcGFjaXR5PSIuMTMiIHN0cm9rZT0iI2ZmZiI+PHBhdGggZD0iTTAgMTIwSDEyMDBNMCAyNTBIMTIwME0wIDM4MEgxMjAwIi8+PHBhdGggZD0iTTE4MCAwVjYyME00MjAgMFY2MjBNNjYwIDBWNjIwTTkwMCAwVjYyMCIvPjwvZz4KPGc+PHJlY3QgeD0iNzAiIHk9IjkwIiB3aWR0aD0iNDI1IiBoZWlnaHQ9IjI2NSIgcng9IjI4IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIuMSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utb3BhY2l0eT0iLjI1Ii8+PHBvbHlsaW5lIHBvaW50cz0iMTEwLDMwMCAxODAsMjU1IDI0NSwyODAgMzIwLDE5MCAzOTAsMjE1IDQ1NSwxNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzM0ZDM5OSIgc3Ryb2tlLXdpZHRoPSIxMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGcgZmlsbD0iIzM0ZDM5OSI+PGNpcmNsZSBjeD0iMTEwIiBjeT0iMzAwIiByPSIxMiIvPjxjaXJjbGUgY3g9IjE4MCIgY3k9IjI1NSIgcj0iMTIiLz48Y2lyY2xlIGN4PSIyNDUiIGN5PSIyODAiIHI9IjEyIi8+PGNpcmNsZSBjeD0iMzIwIiBjeT0iMTkwIiByPSIxMiIvPjxjaXJjbGUgY3g9IjM5MCIgY3k9IjIxNSIgcj0iMTIiLz48Y2lyY2xlIGN4PSI0NTUiIGN5PSIxNDAiIHI9IjEyIi8+PC9nPjx0ZXh0IHg9IjExMCIgeT0iMTQ1IiBmaWxsPSIjZmZmIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjkiIGZvbnQtd2VpZ2h0PSI3MDAiPlRFU1QgQkVOQ0ggVElNRTwvdGV4dD48dGV4dCB4PSIxMTAiIHk9IjE4MCIgZmlsbD0iI2E3ZjNkMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjIyIj5NTCBwcmVkaWN0aW9uICZhbXA7IG9wdGltaXphdGlvbjwvdGV4dD48L2c+CjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQzNSAyNzUpIj48cGF0aCBkPSJNNjAgMTMwbDUwLTgwcTIwLTMwIDcwLTM1aDI1MHE1MCA1IDgwIDQ1bDQ1IDcwaDUwcTM1IDAgMzUgMzV2NTVINXYtNTVxMC0zNSAzNS0zNXoiIGZpbGw9InVybCgjY2FyKSIvPjxwYXRoIGQ9Ik0xNjAgNTBoMjUwcTMxIDMgNTAgMjlsMjUgMzlIMTE1eiIgZmlsbD0iIzBmMTcyYSIgb3BhY2l0eT0iLjgyIi8+PGNpcmNsZSBjeD0iMTQ1IiBjeT0iMjE4IiByPSI1MiIgZmlsbD0iIzExMTgyNyIvPjxjaXJjbGUgY3g9IjE0NSIgY3k9IjIxOCIgcj0iMjQiIGZpbGw9IiM5NGEzYjgiLz48Y2lyY2xlIGN4PSI0OTAiIGN5PSIyMTgiIHI9IjUyIiBmaWxsPSIjMTExODI3Ii8+PGNpcmNsZSBjeD0iNDkwIiBjeT0iMjE4IiByPSIyNCIgZmlsbD0iIzk0YTNiOCIvPjxyZWN0IHg9IjAiIHk9IjIyMiIgd2lkdGg9IjY0MCIgaGVpZ2h0PSIyNiIgcng9IjEzIiBmaWxsPSIjZjU5ZTBiIi8+PGcgc3Ryb2tlPSIjZjhmYWZjIiBzdHJva2Utd2lkdGg9IjciPjxwYXRoIGQ9Ik0yNjAgNTV2NjJNMzYwIDU1djYyIi8+PC9nPjwvZz4KPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoOTAwIDEwMCkiPjxjaXJjbGUgY3g9IjEyMCIgY3k9IjEyMCIgcj0iOTUiIGZpbGw9IiMyMmM1NWUiIG9wYWNpdHk9Ii4xNiIvPjxwYXRoIGQ9Ik0xMTUgMjE1QzIwIDE1NSA0MCA0NSAxMjUgMjhjMjUgNjYgNzQgOTUgMTIwIDc0LTEwIDkzLTYyIDEzOC0xMzAgMTEzeiIgZmlsbD0iIzM0ZDM5OSIvPjxwYXRoIGQ9Ik0xMDQgMTkxcTM4LTY2IDEwMS0xMDEiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2VjZmRmNSIgc3Ryb2tlLXdpZHRoPSIxMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9nPgo8L3N2Zz4="/>
+</div>
+<div class="project-body">
+<div class="project-title">Mercedes-Benz — Reducing Test Bench Time</div>
+<p class="project-desc">Cleaned zero-variance and null features, label-encoded categorical variables, applied dimensionality reduction, and used XGBoost to predict how long a car configuration spends on the test bench.</p>
+<div class="project-metric">XGBoost · PCA · Label Encoding</div>
+<a class="project-link" href="https://github.com/Nisha12598/Mercedes-Benz" rel="noopener" target="_blank">
+<svg fill="currentColor" viewbox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
             Explore the project on GitHub
           </a>
-        </div>
-      </div>
-
-      <!-- Book Rental Recommendation -->
-      <div class="project-card">
-        <div class="project-band">
-          <svg viewBox="0 0 84 62" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M42 14c-7-5-18-6-26-3v34c8-3 19-2 26 3 7-5 18-6 26-3V11c-8-3-19-2-26 3z" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/>
-            <path d="M42 14v34" stroke="var(--accent)" stroke-width="2"/>
-            <path d="M20 18c4-1.5 9-1.5 13 0M20 26c4-1.5 9-1.5 13 0M50 18c4-1.5 9-1.5 13 0M50 26c4-1.5 9-1.5 13 0" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/>
-          </svg>
-        </div>
-        <div class="project-body">
-          <div class="project-title">Book Rental Recommendation Engine</div>
-          <p class="project-desc">Built user-based and item-based collaborative filtering on the Book-Crossing dataset, re-indexing users/ISBNs into a ratings matrix and evaluating rental recommendations with RMSE.</p>
-          <div class="project-metric">Collaborative Filtering · RMSE</div>
-          <a class="project-link" href="https://github.com/Nisha12598/Book-rental-Recommendation" target="_blank" rel="noopener">
-            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+</div>
+</div>
+<!-- Book Rental Recommendation -->
+<div class="project-card">
+<div class="project-band">
+<img alt="Book recommendation engine using collaborative filtering" class="project-image" loading="lazy" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjYyMCIgdmlld0JveD0iMCAwIDEyMDAgNjIwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IkJvb2sgcmVjb21tZW5kYXRpb24gZW5naW5lIGFuZCBjb2xsYWJvcmF0aXZlIGZpbHRlcmluZyBpbGx1c3RyYXRpb24iPgo8ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iI2ZmZjdlZCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2VkZTlmZSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgo8cmVjdCB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI2MjAiIGZpbGw9InVybCgjYmcpIi8+PGNpcmNsZSBjeD0iMTA4MCIgY3k9IjEwMCIgcj0iMTgwIiBmaWxsPSIjZjU5ZTBiIiBvcGFjaXR5PSIuMTMiLz48Y2lyY2xlIGN4PSIxMTAiIGN5PSI1NjAiIHI9IjIxMCIgZmlsbD0iIzhiNWNmNiIgb3BhY2l0eT0iLjEyIi8+CjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDcwIDEzMCkiPjxwYXRoIGQ9Ik00MDAgNTBDMzAwIDAgMTU1IDAgNDUgMzV2MzMwYzExMC0zNSAyNTUtMzUgMzU1IDE1IDEwMC01MCAyNDUtNTAgMzU1LTE1VjM1QzY0NSAwIDUwMCAwIDQwMCA1MHoiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzdjM2FlZCIgc3Ryb2tlLXdpZHRoPSI4Ii8+PHBhdGggZD0iTTQwMCA1MHYzMzAiIHN0cm9rZT0iIzdjM2FlZCIgc3Ryb2tlLXdpZHRoPSI4Ii8+PGcgc3Ryb2tlPSIjYzRiNWZkIiBzdHJva2Utd2lkdGg9IjEyIiBzdHJva2UtbGluZWNhcD0icm91bmQiPjxwYXRoIGQ9Ik0xMDAgMTAwaDIyME0xMDAgMTUwaDIyME0xMDAgMjAwaDE4ME0xMDAgMjUwaDIxME00ODAgMTAwaDIyME00ODAgMTUwaDIyME00ODAgMjAwaDE4NU00ODAgMjUwaDIxMCIvPjwvZz48ZyBmaWxsPSIjZjU5ZTBiIj48Y2lyY2xlIGN4PSIxMjAiIGN5PSIzMjAiIHI9IjE2Ii8+PGNpcmNsZSBjeD0iMTc1IiBjeT0iMzIwIiByPSIxNiIvPjxjaXJjbGUgY3g9IjIzMCIgY3k9IjMyMCIgcj0iMTYiLz48Y2lyY2xlIGN4PSIyODUiIGN5PSIzMjAiIHI9IjE2Ii8+PGNpcmNsZSBjeD0iMzQwIiBjeT0iMzIwIiByPSIxNiIvPjwvZz48L2c+CjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDg1MCAxMzUpIj48cmVjdCB3aWR0aD0iMjc1IiBoZWlnaHQ9IjM0NSIgcng9IjMwIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMTM4IiB5PSI1NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzRjMWQ5NSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjI4IiBmb250LXdlaWdodD0iNzAwIj5SRUNPTU1FTkRBVElPTlM8L3RleHQ+PGcgZmlsbD0iIzhiNWNmNiI+PGNpcmNsZSBjeD0iNTUiIGN5PSIxMTAiIHI9IjEzIi8+PGNpcmNsZSBjeD0iMTEwIiBjeT0iMTEwIiByPSIxMyIvPjxjaXJjbGUgY3g9IjE2NSIgY3k9IjExMCIgcj0iMTMiLz48Y2lyY2xlIGN4PSIyMjAiIGN5PSIxMTAiIHI9IjEzIi8+PGNpcmNsZSBjeD0iNTUiIGN5PSIxNjUiIHI9IjEzIi8+PGNpcmNsZSBjeD0iMTEwIiBjeT0iMTY1IiByPSIxMyIvPjxjaXJjbGUgY3g9IjE2NSIgY3k9IjE2NSIgcj0iMTMiLz48Y2lyY2xlIGN4PSIyMjAiIGN5PSIxNjUiIHI9IjEzIi8+PGNpcmNsZSBjeD0iNTUiIGN5PSIyMjAiIHI9IjEzIi8+PGNpcmNsZSBjeD0iMTEwIiBjeT0iMjIwIiByPSIxMyIvPjxjaXJjbGUgY3g9IjE2NSIgY3k9IjIyMCIgcj0iMTMiLz48Y2lyY2xlIGN4PSIyMjAiIGN5PSIyMjAiIHI9IjEzIi8+PGNpcmNsZSBjeD0iNTUiIGN5PSIyNzUiIHI9IjEzIi8+PGNpcmNsZSBjeD0iMTEwIiBjeT0iMjc1IiByPSIxMyIvPjxjaXJjbGUgY3g9IjE2NSIgY3k9IjI3NSIgcj0iMTMiLz48Y2lyY2xlIGN4PSIyMjAiIGN5PSIyNzUiIHI9IjEzIi8+PC9nPjxnIGZpbGw9IiNmNTllMGIiPjxjaXJjbGUgY3g9IjU1IiBjeT0iMTEwIiByPSIxMyIvPjxjaXJjbGUgY3g9IjE2NSIgY3k9IjE2NSIgcj0iMTMiLz48Y2lyY2xlIGN4PSIyMjAiIGN5PSIyMjAiIHI9IjEzIi8+PGNpcmNsZSBjeD0iMTEwIiBjeT0iMjc1IiByPSIxMyIvPjwvZz48cGF0aCBkPSJNNDUgMzEwaDE4NSIgc3Ryb2tlPSIjY2JkNWUxIiBzdHJva2Utd2lkdGg9IjEwIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L2c+CjxnIHN0cm9rZT0iIzdjM2FlZCIgc3Ryb2tlLXdpZHRoPSI4IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiPjxwYXRoIGQ9Ik03ODAgMzA1SDg1MCIvPjxwYXRoIGQ9Ik04MjggMjgybDI1IDIzLTI1IDIzIi8+PC9nPgo8L3N2Zz4="/>
+</div>
+<div class="project-body">
+<div class="project-title">Book Rental Recommendation Engine</div>
+<p class="project-desc">Built user-based and item-based collaborative filtering on the Book-Crossing dataset, re-indexing users/ISBNs into a ratings matrix and evaluating rental recommendations with RMSE.</p>
+<div class="project-metric">Collaborative Filtering · RMSE</div>
+<a class="project-link" href="https://github.com/Nisha12598/Book-rental-Recommendation" rel="noopener" target="_blank">
+<svg fill="currentColor" viewbox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
             Explore the project on GitHub
           </a>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- EDUCATION -->
-  <section id="education" class="section reveal">
-    <div class="eyebrow">Background</div>
-    <h2 class="section-title">Education</h2>
-
-    <div class="resume-col-title">🎓 Education</div>
-    <div class="timeline">
-      <div class="titem">
-        <h4>Master's in Data Science</h4>
-        <div class="org">Simplilearn, in collaboration with IBM</div>
-        <div class="dates">Jul 2022 — Jul 2023 · Bengaluru, India</div>
-        <p>Python for Data Science &amp; Machine Learning.</p>
-      </div>
-      <div class="titem">
-        <h4>B.Com (Computers)</h4>
-        <div class="org">Aurora's Degree and PG College</div>
-        <div class="dates">Jul 2016 — May 2019 · Hyderabad, India — 93%</div>
-      </div>
-      <div class="titem">
-        <h4>MEC (Maths, Economics, Commerce)</h4>
-        <div class="org">Sri Chaitanya Junior College, Hydernagar</div>
-        <div class="dates">Jun 2014 — Apr 2016 · Hyderabad, India — 93%</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact" class="section reveal">
-    <div class="eyebrow">Contact</div>
-    <h2 class="contact-title">Open to Senior Software Engineer, DevOps, ML Engineer &amp; Data Scientist roles across <span>Germany</span>.</h2>
-    <div class="contact-links">
-      <a class="contact-link" href="mailto:jnisha0598@gmail.com">✉ jnisha0598@gmail.com</a>
-      <a class="contact-link" href="tel:+15156336024">☎ +1 515 633 6024</a>
-      <a class="contact-link" href="https://www.linkedin.com/in/nishajamindari" target="_blank" rel="noopener">↗ LinkedIn</a>
-      <a class="contact-link" href="https://github.com/Nisha12598" target="_blank" rel="noopener">↗ GitHub</a>
-    </div>
-  </section>
-
+</div>
+</div>
+<!-- Healthcare - Cardiovascular -->
+<div class="project-card">
+<div class="project-band">
+<img alt="Cardiovascular risk analysis using exploratory data analysis, logistic regression, and random forest models" class="project-image" loading="lazy" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjYyMCIgdmlld0JveD0iMCAwIDEyMDAgNjIwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IkNhcmRpb3Zhc2N1bGFyIHJpc2sgYW5hbHlzaXMgYW5kIG1hY2hpbmUtbGVhcm5pbmcgZGFzaGJvYXJkIGlsbHVzdHJhdGlvbiI+CjxkZWZzPgogIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBzdG9wLWNvbG9yPSIjZmZmN2Y3Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZThmM2ZmIi8+PC9saW5lYXJHcmFkaWVudD4KICA8bGluZWFyR3JhZGllbnQgaWQ9ImhlYXJ0IiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iI2VmNDQ0NCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2JlMTIzYyIvPjwvbGluZWFyR3JhZGllbnQ+CiAgPGZpbHRlciBpZD0ic2hhZG93IiB4PSItMjAlIiB5PSItMjAlIiB3aWR0aD0iMTQwJSIgaGVpZ2h0PSIxNDAlIj48ZmVEcm9wU2hhZG93IGR4PSIwIiBkeT0iMTIiIHN0ZERldmlhdGlvbj0iMTYiIGZsb29kLW9wYWNpdHk9Ii4xNCIvPjwvZmlsdGVyPgo8L2RlZnM+CjxyZWN0IHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjYyMCIgZmlsbD0idXJsKCNiZykiLz4KPGNpcmNsZSBjeD0iMTA3MCIgY3k9IjkwIiByPSIxNzUiIGZpbGw9IiNmYjcxODUiIG9wYWNpdHk9Ii4xMiIvPjxjaXJjbGUgY3g9IjEyMCIgY3k9IjU2MCIgcj0iMjEwIiBmaWxsPSIjNjBhNWZhIiBvcGFjaXR5PSIuMTAiLz4KPGcgb3BhY2l0eT0iLjE4IiBzdHJva2U9IiM0NzU1NjkiPjxwYXRoIGQ9Ik0wIDExMEgxMjAwTTAgMjM1SDEyMDBNMCAzNjBIMTIwME0wIDQ4NUgxMjAwIi8+PHBhdGggZD0iTTE2MCAwVjYyME00MDAgMFY2MjBNNjQwIDBWNjIwTTg4MCAwVjYyME0xMTIwIDBWNjIwIi8+PC9nPgo8ZyBmaWx0ZXI9InVybCgjc2hhZG93KSI+PHJlY3QgeD0iNzAiIHk9Ijg1IiB3aWR0aD0iNDcwIiBoZWlnaHQ9IjQ1MCIgcng9IjM0IiBmaWxsPSIjZmZmIi8+PHJlY3QgeD0iNTk1IiB5PSI4NSIgd2lkdGg9IjUzNSIgaGVpZ2h0PSI0NTAiIHJ4PSIzNCIgZmlsbD0iI2ZmZiIvPjwvZz4KPHRleHQgeD0iMTE1IiB5PSIxNDUiIGZpbGw9IiMzMzQxNTUiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjMxIiBmb250LXdlaWdodD0iNzAwIj5DQVJESU9WQVNDVUxBUiBSSVNLPC90ZXh0Pgo8dGV4dCB4PSIxMTUiIHk9IjE4MSIgZmlsbD0iIzY0NzQ4YiIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjIiPkNsaW5pY2FsIGZhY3RvcnMgwrcgRURBIMK3IHByZWRpY3Rpb248L3RleHQ+CjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE0NSAyMTgpIj4KICA8cGF0aCBkPSJNMTYwIDIzNUM0NSAxNTcgMCAxMDQgMCA0NyAwIDUgMzQtMjUgNzYtMjVjNDQgMCA3MCAyOCA4NCA1NCAxNC0yNiA0MC01NCA4NC01NCA0MiAwIDc2IDMwIDc2IDcyIDAgNTctNDUgMTEwLTE2MCAxODh6IiBmaWxsPSJ1cmwoI2hlYXJ0KSIvPgogIDxwYXRoIGQ9Ik0tMzUgMTEyaDg4bDMxLTcwIDUyIDE0MiA0My0xMDQgMzIgNTloMTMwIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L2c+CjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY0MCAxMzApIj4KICA8dGV4dCB4PSIwIiB5PSIwIiBmaWxsPSIjMzM0MTU1IiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyOCIgZm9udC13ZWlnaHQ9IjcwMCI+TU9ERUwgJmFtcDsgQU5BTFlUSUNTPC90ZXh0PgogIDxyZWN0IHg9IjAiIHk9IjQyIiB3aWR0aD0iNDQ1IiBoZWlnaHQ9IjEyNSIgcng9IjIyIiBmaWxsPSIjZjhmYWZjIiBzdHJva2U9IiNlMmU4ZjAiLz4KICA8dGV4dCB4PSIyOCIgeT0iODAiIGZpbGw9IiM2NDc0OGIiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE5Ij5SaXNrIHByb2JhYmlsaXR5PC90ZXh0PgogIDx0ZXh0IHg9IjI4IiB5PSIxMzUiIGZpbGw9IiMwZjE3MmEiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjQ4IiBmb250LXdlaWdodD0iNzAwIj4wLjc4PC90ZXh0PgogIDxyZWN0IHg9IjE3OCIgeT0iOTciIHdpZHRoPSIyMzAiIGhlaWdodD0iMjAiIHJ4PSIxMCIgZmlsbD0iI2UyZThmMCIvPjxyZWN0IHg9IjE3OCIgeT0iOTciIHdpZHRoPSIxODAiIGhlaWdodD0iMjAiIHJ4PSIxMCIgZmlsbD0iI2VmNDQ0NCIvPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgMjA1KSI+CiAgICA8cmVjdCB3aWR0aD0iNDQ1IiBoZWlnaHQ9IjE4NSIgcng9IjIyIiBmaWxsPSIjZjhmYWZjIiBzdHJva2U9IiNlMmU4ZjAiLz4KICAgIDxwYXRoIGQ9Ik0zOCAxNDJMMTA0IDExOUwxNjYgMTI3TDIzMCA3OUwyOTIgOTZMMzU4IDQ1TDQwNyA2MSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjU2M2ViIiBzdHJva2Utd2lkdGg9IjkiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgogICAgPGcgZmlsbD0iIzI1NjNlYiI+PGNpcmNsZSBjeD0iMzgiIGN5PSIxNDIiIHI9IjgiLz48Y2lyY2xlIGN4PSIxMDQiIGN5PSIxMTkiIHI9IjgiLz48Y2lyY2xlIGN4PSIxNjYiIGN5PSIxMjciIHI9IjgiLz48Y2lyY2xlIGN4PSIyMzAiIGN5PSI3OSIgcj0iOCIvPjxjaXJjbGUgY3g9IjI5MiIgY3k9Ijk2IiByPSI4Ii8+PGNpcmNsZSBjeD0iMzU4IiBjeT0iNDUiIHI9IjgiLz48Y2lyY2xlIGN4PSI0MDciIGN5PSI2MSIgcj0iOCIvPjwvZz4KICAgIDx0ZXh0IHg9IjI4IiB5PSIzNSIgZmlsbD0iIzY0NzQ4YiIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiPkZlYXR1cmUgY29ycmVsYXRpb24gJmFtcDsgbW9kZWwgc2lnbmFsPC90ZXh0PgogIDwvZz4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwIDQyMCkiPjxyZWN0IHdpZHRoPSIyMDciIGhlaWdodD0iNTgiIHJ4PSIyOSIgZmlsbD0iI2ZlZTJlMiIvPjx0ZXh0IHg9IjEwMyIgeT0iMzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNiZTEyM2MiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjIwIiBmb250LXdlaWdodD0iNzAwIj5MT0dJU1RJQyBSRUdSRVNTSU9OPC90ZXh0PjxyZWN0IHg9IjIyNCIgd2lkdGg9IjIyMSIgaGVpZ2h0PSI1OCIgcng9IjI5IiBmaWxsPSIjZGJlYWZlIi8+PHRleHQgeD0iMzM0IiB5PSIzOCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzFkNGVkOCIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjAiIGZvbnQtd2VpZ2h0PSI3MDAiPlJBTkRPTSBGT1JFU1Q8L3RleHQ+PC9nPgo8L2c+Cjwvc3ZnPg=="/>
+</div>
+<div class="project-body">
+<div class="project-title">Healthcare — Cardiovascular Risk Analysis</div>
+<p class="project-desc">Explored clinical factors behind cardiovascular disease through preliminary inspection, EDA, and correlation analysis, then built logistic regression and random forest models to predict heart attack risk.</p>
+<div class="project-metric">Logistic Regression · Random Forest · EDA</div>
+<a class="project-link" href="https://github.com/Nisha12598/Healthcare-Cardivascular" rel="noopener" target="_blank">
+<svg aria-hidden="true" fill="currentColor" viewbox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
+      Explore the project on GitHub
+    </a>
+</div>
+</div><!-- Real Estate -->
+<div class="project-card">
+<div class="project-band">
+<img alt="Real-estate mortgage expenditure analysis using regression, factor analysis, and Tableau" class="project-image" loading="lazy" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjYyMCIgdmlld0JveD0iMCAwIDEyMDAgNjIwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlJlYWwtZXN0YXRlIG1vcnRnYWdlIGFuYWx5c2lzIHdpdGggaG91c2UsIGZpbmFuY2lhbCBkYXNoYm9hcmQsIGFuZCByZWdyZXNzaW9uIGNoYXJ0Ij4KPGRlZnM+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJiZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiNmNGZiZjciLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNlZGY0ZmYiLz48L2xpbmVhckdyYWRpZW50PgogIDxsaW5lYXJHcmFkaWVudCBpZD0icm9vZiIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIHN0b3AtY29sb3I9IiMwZjc2NmUiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxNTVlNzUiLz48L2xpbmVhckdyYWRpZW50PgogIDxmaWx0ZXIgaWQ9InNoYWRvdyIgeD0iLTIwJSIgeT0iLTIwJSIgd2lkdGg9IjE0MCUiIGhlaWdodD0iMTQwJSI+PGZlRHJvcFNoYWRvdyBkeD0iMCIgZHk9IjEyIiBzdGREZXZpYXRpb249IjE2IiBmbG9vZC1vcGFjaXR5PSIuMTQiLz48L2ZpbHRlcj4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI2MjAiIGZpbGw9InVybCgjYmcpIi8+CjxjaXJjbGUgY3g9IjEwNDAiIGN5PSIxMDUiIHI9IjE4MCIgZmlsbD0iIzIyYzU1ZSIgb3BhY2l0eT0iLjEwIi8+PGNpcmNsZSBjeD0iMTAwIiBjeT0iNTYwIiByPSIyMTAiIGZpbGw9IiMzYjgyZjYiIG9wYWNpdHk9Ii4wOSIvPgo8ZyBvcGFjaXR5PSIuMTYiIHN0cm9rZT0iIzQ3NTU2OSI+PHBhdGggZD0iTTAgMTE1SDEyMDBNMCAyNDBIMTIwME0wIDM2NUgxMjAwTTAgNDkwSDEyMDAiLz48cGF0aCBkPSJNMTcwIDBWNjIwTTQxMCAwVjYyME02NTAgMFY2MjBNODkwIDBWNjIwTTExMzAgMFY2MjAiLz48L2c+CjxnIGZpbHRlcj0idXJsKCNzaGFkb3cpIj48cmVjdCB4PSI2NSIgeT0iODAiIHdpZHRoPSI1MDAiIGhlaWdodD0iNDYwIiByeD0iMzQiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSI2MTAiIHk9IjgwIiB3aWR0aD0iNTIwIiBoZWlnaHQ9IjQ2MCIgcng9IjM0IiBmaWxsPSIjZmZmIi8+PC9nPgo8dGV4dCB4PSIxMDUiIHk9IjE0MiIgZmlsbD0iIzMzNDE1NSIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzAiIGZvbnQtd2VpZ2h0PSI3MDAiPk1PUlRHQUdFIEVYUEVORElUVVJFPC90ZXh0Pgo8dGV4dCB4PSIxMDUiIHk9IjE3OCIgZmlsbD0iIzY0NzQ4YiIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjIiPkhvdXNpbmcgZmFjdG9ycyDCtyByZWdyZXNzaW9uIMK3IGRhc2hib2FyZDwvdGV4dD4KPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTA1IDIxNSkiPgogIDxwYXRoIGQ9Ik0zOCAxMzVMMjE4IDBsMTgwIDEzNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI3Jvb2YpIiBzdHJva2Utd2lkdGg9IjMyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KICA8cmVjdCB4PSI3NSIgeT0iMTIwIiB3aWR0aD0iMjg2IiBoZWlnaHQ9IjI0NSIgcng9IjgiIGZpbGw9IiNkOWYzZWYiIHN0cm9rZT0iIzBmNzY2ZSIgc3Ryb2tlLXdpZHRoPSI4Ii8+CiAgPHJlY3QgeD0iMTk0IiB5PSIyNDQiIHdpZHRoPSI3MCIgaGVpZ2h0PSIxMjEiIHJ4PSI1IiBmaWxsPSIjMGY3NjZlIi8+CiAgPHJlY3QgeD0iMTEyIiB5PSIxODAiIHdpZHRoPSI2OCIgaGVpZ2h0PSI2NSIgcng9IjUiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzM4YmRmOCIgc3Ryb2tlLXdpZHRoPSI3Ii8+PHBhdGggZD0iTTE0NiAxODB2NjVNMTEyIDIxMmg2OCIgc3Ryb2tlPSIjMzhiZGY4IiBzdHJva2Utd2lkdGg9IjUiLz4KICA8cmVjdCB4PSIyODAiIHk9IjE4MCIgd2lkdGg9IjQ4IiBoZWlnaHQ9IjY1IiByeD0iNSIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjMzhiZGY4IiBzdHJva2Utd2lkdGg9IjciLz4KICA8Y2lyY2xlIGN4PSIyMjkiIGN5PSIzMDQiIHI9IjYiIGZpbGw9IiNmZmYiLz4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzMjAgMjgwKSI+PGNpcmNsZSBjeD0iNTYiIGN5PSI1NiIgcj0iNTUiIGZpbGw9IiNmNTllMGIiLz48dGV4dCB4PSI1NiIgeT0iNDUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmYiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0IiBmb250LXdlaWdodD0iNzAwIj7igqw8L3RleHQ+PHRleHQgeD0iNTYiIHk9Ijc2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjZmZmIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOSI+Q09TVDwvdGV4dD48L2c+CjwvZz4KPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjU1IDEyNSkiPgogIDx0ZXh0IHg9IjAiIHk9IjAiIGZpbGw9IiMzMzQxNTUiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI4IiBmb250LXdlaWdodD0iNzAwIj5GSU5BTkNJQUwgQU5BTFlUSUNTPC90ZXh0PgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgNDUpIj48cmVjdCB3aWR0aD0iNDMwIiBoZWlnaHQ9IjE4NSIgcng9IjIyIiBmaWxsPSIjZjhmYWZjIiBzdHJva2U9IiNlMmU4ZjAiLz48dGV4dCB4PSIyNSIgeT0iMzUiIGZpbGw9IiM2NDc0OGIiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4Ij5QcmVkaWN0ZWQgbW9udGhseSBleHBlbmRpdHVyZTwvdGV4dD48dGV4dCB4PSIyNSIgeT0iMTA1IiBmaWxsPSIjMGYxNzJhIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSI1MiIgZm9udC13ZWlnaHQ9IjcwMCI+4oKsMSwyNDA8L3RleHQ+PHBhdGggZD0iTTI3MCAxMzdsNDQtNDIgMzkgMjIgNTItNzIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzE2YTM0YSIgc3Ryb2tlLXdpZHRoPSI5IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cGF0aCBkPSJNMzg1IDQ1aDIwdjIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMxNmEzNGEiIHN0cm9rZS13aWR0aD0iOSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9nPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgMjU1KSI+PHJlY3Qgd2lkdGg9IjQzMCIgaGVpZ2h0PSIxNzAiIHJ4PSIyMiIgZmlsbD0iI2Y4ZmFmYyIgc3Ryb2tlPSIjZTJlOGYwIi8+PHRleHQgeD0iMjUiIHk9IjM1IiBmaWxsPSIjNjQ3NDhiIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCI+UmVncmVzc2lvbiBmaXQgJmFtcDsgZmFjdG9yIGltcGFjdDwvdGV4dD48cGF0aCBkPSJNMzUgMTM2TDM5NSA1MCIgc3Ryb2tlPSIjMjU2M2ViIiBzdHJva2Utd2lkdGg9IjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxnIGZpbGw9IiMwZWE1ZTkiIG9wYWNpdHk9Ii44Ij48Y2lyY2xlIGN4PSI2NSIgY3k9IjEyNSIgcj0iMTAiLz48Y2lyY2xlIGN4PSIxMTAiIGN5PSIxMTgiIHI9IjEwIi8+PGNpcmNsZSBjeD0iMTQ4IiBjeT0iMTA1IiByPSIxMCIvPjxjaXJjbGUgY3g9IjE4OCIgY3k9IjExMSIgcj0iMTAiLz48Y2lyY2xlIGN4PSIyMjQiIGN5PSI4MyIgcj0iMTAiLz48Y2lyY2xlIGN4PSIyNjciIGN5PSI4OCIgcj0iMTAiLz48Y2lyY2xlIGN4PSIzMDkiIGN5PSI2NSIgcj0iMTAiLz48Y2lyY2xlIGN4PSIzNTIiIGN5PSI3MCIgcj0iMTAiLz48Y2lyY2xlIGN4PSIzODUiIGN5PSI0MyIgcj0iMTAiLz48L2c+PC9nPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgNDQ1KSI+PHJlY3Qgd2lkdGg9IjE5NiIgaGVpZ2h0PSI1OCIgcng9IjI5IiBmaWxsPSIjY2NmYmYxIi8+PHRleHQgeD0iOTgiIHk9IjM4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMGY3NjZlIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZm9udC13ZWlnaHQ9IjcwMCI+RkFDVE9SIEFOQUxZU0lTPC90ZXh0PjxyZWN0IHg9IjIxNCIgd2lkdGg9IjIxNiIgaGVpZ2h0PSI1OCIgcng9IjI5IiBmaWxsPSIjZGJlYWZlIi8+PHRleHQgeD0iMzIyIiB5PSIzOCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzFkNGVkOCIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjAiIGZvbnQtd2VpZ2h0PSI3MDAiPlRBQkxFQVU8L3RleHQ+PC9nPgo8L2c+Cjwvc3ZnPg=="/>
+</div>
+<div class="project-body">
+<div class="project-title">Real Estate Mortgage Analysis</div>
+<p class="project-desc">Factor analysis and linear regression to predict mortgage expenditure, with a Tableau dashboard visualizing the distribution of housing costs.</p>
+<div class="project-metric">Factor Analysis · Linear Regression · Tableau</div>
+<a class="project-link" href="https://github.com/Nisha12598/Real-Estate" rel="noopener" target="_blank">
+<svg aria-hidden="true" fill="currentColor" viewbox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
+      Explore the project on GitHub
+    </a>
+</div>
+</div></div>
+</section>
+<!-- EDUCATION -->
+<section class="section reveal" id="education">
+<div class="eyebrow">Background</div>
+<h2 class="section-title">Education</h2>
+<div class="resume-col-title">🎓 Education</div>
+<div class="timeline">
+<div class="titem">
+<h4>Master's in Data Science</h4>
+<div class="org">Simplilearn, in collaboration with IBM</div>
+<div class="dates">Jul 2022 — Jul 2023 · Bengaluru, India</div>
+<p>Python for Data Science &amp; Machine Learning.</p>
+</div>
+<div class="titem">
+<h4>B.Com (Computers)</h4>
+<div class="org">Aurora's Degree and PG College</div>
+<div class="dates">Jul 2016 — May 2019 · Hyderabad, India — 93%</div>
+</div>
+<div class="titem">
+<h4>MEC (Maths, Economics, Commerce)</h4>
+<div class="org">Sri Chaitanya Junior College, Hydernagar</div>
+<div class="dates">Jun 2014 — Apr 2016 · Hyderabad, India — 93%</div>
+</div>
+</div>
+</section>
+<!-- CONTACT -->
+<section class="section reveal" id="contact">
+<div class="eyebrow">Contact</div>
+<h2 class="contact-title">Open to Senior Software Engineer, DevOps, ML Engineer &amp; Data Scientist roles across <span>Germany</span>.</h2>
+<div class="contact-links">
+<a class="contact-link" href="mailto:jnisha0598@gmail.com">✉ jnisha0598@gmail.com</a>
+<a class="contact-link" href="tel:+49 15156336024">☎ +1 515 633 6024</a>
+<a class="contact-link" href="https://www.linkedin.com/in/nisha-jamindari/" rel="noopener" target="_blank">↗ LinkedIn</a>
+<a class="contact-link" href="https://github.com/Nisha12598" rel="noopener" target="_blank">↗ GitHub</a>
+</div>
+</section>
 </main>
-
 <footer>
-  <span>© 2026 Nisha Jamindari</span>
-  <span>Fulda, Germany</span>
+<span>© 2026 Nisha Jamindari</span>
+<span>Fulda, Germany</span>
 </footer>
-
-<button id="backtotop" aria-label="Back to top">↑</button>
-
+<button aria-label="Back to top" id="backtotop">↑</button>
 <script>
 (function(){
   "use strict";
@@ -783,7 +836,7 @@
 
   /* ---------- Scrollspy ---------- */
   const navButtons = document.querySelectorAll('#sidebar-nav button');
-  const sections = ['hero','about','skills','experience','portfolio','education','contact'].map(id => document.getElementById(id));
+  const sections = ['hero','about','skills','languages','experience','portfolio','education','contact'].map(id => document.getElementById(id));
   const spy = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if(entry.isIntersecting){
@@ -880,6 +933,5 @@
 
 })();
 </script>
-
 </body>
 </html>
